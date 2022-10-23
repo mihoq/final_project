@@ -30,8 +30,38 @@ class GameSprite(sprite.Sprite):
 class Doodler(GameSprite):
     def __init__(self):
         super().__init__("doodler_l.png", 266, 410, 77, 78)
+        self.left_img = transform.scale(image.load("doodler_l.png"), (77, 78))
+        self.right_img = transform.scale(image.load("doodler_r.png"), (77, 78))
+        self.jleft_img = transform.scale(image.load("jumper_l.png"), (77, 78))
+        self.jright_img = transform.scale(image.load("jumper_r.png"), (77, 78))
+        self.speed = 8
+        self.jump = False
+        self.jumped = False
+        self.jump_height = 225
+    def jump(self):
+        pass
+    
+    def update(self):
+        keys = key.get_pressed()
+        if keys[K_LEFT] and self.rect.x > 0:
+            self.rect.x -= self.speed
+            self.image = self.left_img
+        if keys[K_RIGHT] and self.rect.x < WIDTH - self.width:
+            self.rect.x += self.speed
+            self.image = self.right_img
 
 
+class Platform(GameSprite):
+    def __init__(self, x, y):
+        super().__init__("platform_1.png", x, u, 102, 27)
+
+    def update(self):   
+        if doodler.jumped:
+            self.rect.y += jump_height
+
+platforms = sprite.Group()
+def generate_platforms():
+    pass
 bg_image = transform.scale(image.load("background.png"), (WIDTH, HEIGHT))
 doodler = Doodler()
 FPS = 60
@@ -42,6 +72,9 @@ while run:
     for e in event.get():
         if e.type == QUIT:
             run = False
+    if not finish:
+        doodler.update()
+        doodler.draw()
 
 
     display.update()
