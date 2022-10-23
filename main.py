@@ -10,9 +10,7 @@ window = display.set_mode((WIDTH, HEIGHT))
 display.set_caption("Doodle jump")
 clock = time.Clock()
 font1 = font.SysFont("Impact", 50)
-#mixer.music.load("space.ogg")
-#mixer.music.set_volume(1)
-#mixer.music.play()
+
 
 class GameSprite(sprite.Sprite):
     def __init__(self, image_name, x, y, width, height):
@@ -29,7 +27,7 @@ class GameSprite(sprite.Sprite):
         window.blit(self.image, self.rect)
 class Doodler(GameSprite):
     def __init__(self):
-        super().__init__("doodler_l.png", 266, 410, 77, 78)
+        super().__init__("doodler_l.png", 266, 480, 77, 78)
         self.left_img = transform.scale(image.load("doodler_l.png"), (77, 78))
         self.right_img = transform.scale(image.load("doodler_r.png"), (77, 78))
         self.jleft_img = transform.scale(image.load("jumper_l.png"), (77, 78))
@@ -46,22 +44,32 @@ class Doodler(GameSprite):
         if keys[K_LEFT] and self.rect.x > 0:
             self.rect.x -= self.speed
             self.image = self.left_img
+            if self.rect.x < 1:
+                self.rect.x += 450
         if keys[K_RIGHT] and self.rect.x < WIDTH - self.width:
             self.rect.x += self.speed
             self.image = self.right_img
+            if self.rect.x > 455:
+                self.rect.x -= 450
 
 
 class Platform(GameSprite):
     def __init__(self, x, y):
-        super().__init__("platform_1.png", x, u, 102, 27)
+        super().__init__("platform_1.png", x, y, 102, 27)
 
     def update(self):   
         if doodler.jumped:
             self.rect.y += jump_height
 
 platforms = sprite.Group()
+
 def generate_platforms():
-    pass
+    y = 50
+    for i in range(4):
+        #генеру\мо спрайти
+        y+=100
+        #переходимо на 2 ряд
+
 bg_image = transform.scale(image.load("background.png"), (WIDTH, HEIGHT))
 doodler = Doodler()
 FPS = 60
@@ -76,6 +84,6 @@ while run:
         doodler.update()
         doodler.draw()
 
-
+    platforms.draw(window)
     display.update()
     clock.tick(FPS)
