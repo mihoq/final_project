@@ -61,14 +61,7 @@ class Platform(GameSprite):
         if doodler.jumped:
             self.rect.y += jump_height
 
-platforms = sprite.Group()
 
-def generate_platforms():
-    y = 50
-    for i in range(4):
-        #генеру\мо спрайти
-        y+=100
-        #переходимо на 2 ряд
 
 bg_image = transform.scale(image.load("background.png"), (WIDTH, HEIGHT))
 doodler = Doodler()
@@ -84,6 +77,6 @@ while run:
         doodler.update()
         doodler.draw()
 
-    platforms.draw(window)
+#    platforms.draw(window)
     display.update()
     clock.tick(FPS)
