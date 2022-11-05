@@ -26,8 +26,11 @@ class GameSprite(sprite.Sprite):
     def draw(self):
         window.blit(self.image, self.rect)
 class Doodler(GameSprite):
-    def __init__(self):
-        super().__init__("doodler_l.png", 266, 480, 77, 78)
+    def __init__(self, x, y):
+        super().__init__("doodler_l.png", x, y, 77, 78)
+        self.rect.x = x
+        self.rect.y = y
+        # doodler_y = self.rect.y
         self.left_img = transform.scale(image.load("doodler_l.png"), (77, 78))
         self.right_img = transform.scale(image.load("doodler_r.png"), (77, 78))
         self.jleft_img = transform.scale(image.load("jumper_l.png"), (77, 78))
@@ -35,11 +38,20 @@ class Doodler(GameSprite):
         self.speed = 8
         self.jump = False
         self.jumped = False
-        self.jump_height = 225
+        self.jump_height = 0
+        self.gravity = 1
     def jump(self):
-        pass
+        if self.jump = True:
+            y_change -= 10
+            self.jump = False
     
     def update(self):
+        self jump
+        global y_change
+        self.jump_height = 10
+        self.gravity = 1
+        if jump:
+
         keys = key.get_pressed()
         if keys[K_LEFT] and self.rect.x > 0:
             self.rect.x -= self.speed
@@ -53,18 +65,32 @@ class Doodler(GameSprite):
                 self.rect.x -= 450
 
 
+    
 class Platform(GameSprite):
     def __init__(self, x, y):
         super().__init__("platform_1.png", x, y, 102, 27)
+        self.rect.x = x
+        self.rect.y = y
 
-    def update(self):   
-        if doodler.jumped:
-            self.rect.y += jump_height
+    # def update(self):   
+    #     if doodler.jumped:
+    #         self.rect.y += jump_height
 
-
+# class Wall(sprite.Sprite):
+#     def __init__(self, x, y, width, height, color = (255, 113, 31)):
+#         super().__init__()
+#         self.img = Surface((width, height))
+#         self.rect = self.img.get_rect()
+#         self.img.fill(color)
+        # self.rect.x = x
+        # self.rect.y = y
+#         self.width = width
+#         self.height = height
 
 bg_image = transform.scale(image.load("background.png"), (WIDTH, HEIGHT))
-doodler = Doodler()
+doodler = Doodler(266, 410)
+platform_1 = Platform(215, 790)
+y_change = 0
 FPS = 60
 run = True
 finish = False
@@ -76,7 +102,9 @@ while run:
     if not finish:
         doodler.update()
         doodler.draw()
-
+        platform_1.update()
+        platform_1.draw()
+    # doodler_y = update(doodler_y)
 #    platforms.draw(window)
     display.update()
     clock.tick(FPS)
